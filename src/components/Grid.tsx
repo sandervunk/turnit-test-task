@@ -9,7 +9,7 @@ type GridItem = {
 
 const gridItems: GridItem[] = [
   { title: "Units", content: <div>Im Units content</div> },
-  { title: "Points of sale", content: <PointsOfSale /> },
+  { title: "Points of sale", content: <PointsOfSale/> },
   { title: "Addresses", content: <div>Im Addresses content</div> },
   { title: "Contact options", content: <div>Im Contact options content</div> },
   { title: "Service fees", content: <div>Im Service fees content</div> },
@@ -21,38 +21,34 @@ export const Grid = () => {
 
   return (
     <>
-      <HeaderWrapper>
+      <Tabs>
         {gridItems.map((item: GridItem, key) => (
-          <HeaderItem
-            key={key}
-            isSelected={item===selectedItem}
-            onClick={() => setSelectedItem(item)}
-          >
+          <TabItem key={key} isSelected={item === selectedItem} onClick={() => setSelectedItem(item)}>
             {item.title}
-          </HeaderItem>
+          </TabItem>
         ))}
-      </HeaderWrapper>
-      <ContentWrapper>
+      </Tabs>
+      <Content>
         {selectedItem.content}
-      </ContentWrapper>
+      </Content>
     </>
   );
 }
 
-const ContentWrapper = styled.div`
+const Content = styled.div`
   padding: 16px 24px;
   background: white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 `;
 
-const HeaderItem = styled.div<{isSelected: boolean}>`
+const TabItem = styled.div<{ isSelected: boolean }>`
   padding: 8px 16px;
   cursor: pointer;
   color: ${(props) => props.isSelected ? '#4B00FF' : 'black'};
   background: ${(props) => props.isSelected ? 'white' : '#E5E5E5'};
 `;
 
-const HeaderWrapper = styled.div`
+const Tabs = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
