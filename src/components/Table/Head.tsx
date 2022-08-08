@@ -9,13 +9,16 @@ type Props = {
 export const Head = ({ headerGroups }: Props) => {
   return (
     <THead>
-    {headerGroups.map(headerGroup => (
-      <tr {...headerGroup.getHeaderGroupProps()}>
-        {headerGroup.headers.map(column => (
-          <Cell {...column.getHeaderProps()}>{column.render('Header')}</Cell>
-        ))}
-      </tr>
-    ))}
+      {headerGroups.map(headerGroup => (
+        <tr {...headerGroup.getHeaderGroupProps()}>
+          {headerGroup.headers.map(column => (
+            <Cell {...column.getHeaderProps(column.getSortByToggleProps())}>
+              {column.render('Header')}
+              <span>{column.isSorted ? column.isSortedDesc ? ' 🔽' : ' 🔼' : ''}</span>
+            </Cell>
+          ))}
+        </tr>
+      ))}
     </THead>
   )
 }
@@ -26,5 +29,5 @@ const Cell = styled.th`
 `;
 
 const THead = styled.thead`
-    background: #F6F6F6;
+  background: #F6F6F6;
 `;

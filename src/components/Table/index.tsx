@@ -1,4 +1,4 @@
-import {Column, useTable} from "react-table";
+import {Column, useSortBy, useTable} from "react-table";
 import styled from "styled-components";
 import {DataRow} from "../../types/DataRow";
 import {Head} from "./Head";
@@ -7,17 +7,16 @@ import {Row} from "./Row";
 type Props = {
   columns: Column<DataRow>[]
   data: DataRow[];
-  addNewRow: () => void;
 }
 
-export const Table = ({ columns, data, addNewRow }: Props) => {
+export const Table = ({ columns, data }: Props) => {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable<DataRow>({ columns, data });
+  } = useTable<DataRow>({ columns, data }, useSortBy);
 
   return (
     <TableWrapper {...getTableProps()}>

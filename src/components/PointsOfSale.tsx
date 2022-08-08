@@ -73,7 +73,7 @@ export const PointsOfSale = () => {
       <ActionBar addNewRow={addNewRow} />
       <Form onSubmit={(a) => console.log(a)} render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <Table columns={columns} data={data} addNewRow={addNewRow}/>
+          <Table columns={columns} data={data} />
         </form>
       )}/>
     </>
