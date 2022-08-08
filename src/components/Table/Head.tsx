@@ -26,6 +26,10 @@ export const Head = ({ headerGroups }: Props) => {
 const Cell = styled.th`
   text-align: start;
   padding: 16px;
+
+  :not(:first-of-type):not(:last-of-type) {
+    min-width: 200px;
+  }
 `;
 
 const THead = styled.thead`

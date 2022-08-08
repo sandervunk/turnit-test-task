@@ -1,16 +1,16 @@
-import React, {useEffect, forwardRef, useRef} from 'react';
+import React, {useEffect, forwardRef, useRef, Ref, MutableRefObject} from 'react';
 
 type Props = {
   indeterminate?: boolean;
 }
 
 const useCombinedRefs = (
-  ...refs: Array<React.Ref<HTMLInputElement> | React.MutableRefObject<null>>
-): React.MutableRefObject<HTMLInputElement | null> => {
+  ...refs: Array<Ref<HTMLInputElement> | MutableRefObject<null>>
+): MutableRefObject<HTMLInputElement | null> => {
   const targetRef = useRef(null);
 
   useEffect(() => {
-    refs.forEach((ref: React.Ref<HTMLInputElement> | React.MutableRefObject<null>) => {
+    refs.forEach((ref: Ref<HTMLInputElement> | MutableRefObject<null>) => {
       if (!ref) return;
 
       if (typeof ref === 'function') {
@@ -25,7 +25,7 @@ const useCombinedRefs = (
 };
 
 export const IndeterminateCheckbox = forwardRef<HTMLInputElement, Props>(
-  ({ indeterminate, ...rest }, ref: React.Ref<HTMLInputElement>) => {
+  ({ indeterminate, ...rest }, ref: Ref<HTMLInputElement>) => {
     const defaultRef = useRef(null);
     const combinedRef = useCombinedRefs(ref, defaultRef);
 
