@@ -1,10 +1,10 @@
-import {Row as ReactTableRow} from "react-table";
+import {Row as RTRow} from "react-table";
 import {DataRow} from "../../types/DataRow";
 import styled from "styled-components";
 
 type Props = {
-  row: ReactTableRow<DataRow>;
-  prepareRow: (row: ReactTableRow<DataRow>) => void
+  row: RTRow<DataRow>;
+  prepareRow: (row: RTRow<DataRow>) => void
 }
 
 export const Row = ({ row, prepareRow }: Props) => {

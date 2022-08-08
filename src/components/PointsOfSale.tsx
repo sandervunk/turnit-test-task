@@ -5,7 +5,6 @@ import {Table} from "./Table";
 import {ActionCell} from "./Table/ActionCell";
 import {DefaultCell} from "./Table/DefaultCell";
 import {ActionBar} from "./ActionBar";
-import {Form} from "react-final-form";
 
 const initialState: DataRow[] = [
   { name: 'Hello', type: 'World', tools: ['asd'], reference: "ert", active: true },
@@ -18,12 +17,12 @@ const emptyRow: DataRow = { name: '', type: '', tools: [], reference: "", active
 export const PointsOfSale = () => {
   const [data, setData] = useState<DataRow[]>(initialState);
   const [focusRowId, setFocusRowId] = useState<string | null>(null);
-  
+  const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
+
   const isInFocus = useMemo(() => (id: string) => focusRowId === id, [focusRowId]);
-  
+
   const columns: Column<DataRow>[] = useMemo(
     () => [
-      { Header: () => <input type="checkbox"/>, id: 'selection', Cell: () => <input type="checkbox"/>, },
       {
         Header: "Name",
         accessor: 'name',
@@ -68,14 +67,17 @@ export const PointsOfSale = () => {
 
   const addNewRow = () => setData((prevData) => ([...prevData, emptyRow]));
 
+  const deleteRows = () => {
+    if(selectedRowIds.length > 0) {
+      setData((prevData) => prevData.filter((_, index) => !selectedRowIds.includes(index.toString())));
+      setSelectedRowIds([]);
+    }
+  }
+
   return (
     <>
-      <ActionBar addNewRow={addNewRow} />
-      <Form onSubmit={(a) => console.log(a)} render={({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <Table columns={columns} data={data} />
-        </form>
-      )}/>
+      <ActionBar addNewRow={addNewRow} deleteRows={deleteRows} />
+      <Table columns={columns} data={data} setSelectedRowIds={setSelectedRowIds} />
     </>
   );
 }

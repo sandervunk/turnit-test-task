@@ -3,9 +3,10 @@ import {Add, DeleteOutline} from '@mui/icons-material';
 
 type Props = {
   addNewRow: () => void;
+  deleteRows: () => void;
 }
 
-export const ActionBar = ({addNewRow}: Props) => {
+export const ActionBar = ({addNewRow, deleteRows}: Props) => {
   return (
     <Wrapper>
       <FlexBox>
@@ -13,7 +14,7 @@ export const ActionBar = ({addNewRow}: Props) => {
         <div>Show active points of sale</div>
       </FlexBox>
       <FlexBox>
-        <Action>
+        <Action onClick={deleteRows}>
           <DeleteOutline/>
           <div>Delete selected</div>
         </Action>
