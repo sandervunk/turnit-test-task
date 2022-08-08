@@ -7,27 +7,29 @@ type GridItem = {
   content: ReactNode;
 }
 
+const renderDummyContent = (tabName: string) => <div>Im <b>{tabName}</b> content</div>;
+
 const gridItems: GridItem[] = [
-  { title: "Units", content: <div>Im Units content</div> },
-  { title: "Points of sale", content: <PointsOfSale/> },
-  { title: "Addresses", content: <div>Im Addresses content</div> },
-  { title: "Contact options", content: <div>Im Contact options content</div> },
-  { title: "Service fees", content: <div>Im Service fees content</div> },
-  { title: "Booking access rights", content: <div>Im Booking access rights content</div> }
+  { title: "Units", content: renderDummyContent('Units'), },
+  { title: "Points of sale", content: <PointsOfSale/>, },
+  { title: "Addresses", content: renderDummyContent('Addresses'), },
+  { title: "Contact options", content: renderDummyContent('Contact options'), },
+  { title: "Service fees", content: renderDummyContent('Service fees'), },
+  { title: "Booking access rights", content: renderDummyContent('Booking access rights'), }
 ];
 
-export const Grid = () => {
+export const Tabs = () => {
   const [selectedItem, setSelectedItem] = useState<GridItem>(gridItems[1]);
 
   return (
     <>
-      <Tabs>
+      <TabContainer>
         {gridItems.map((item: GridItem, key) => (
           <TabItem key={key} isSelected={item === selectedItem} onClick={() => setSelectedItem(item)}>
             {item.title}
           </TabItem>
         ))}
-      </Tabs>
+      </TabContainer>
       <Content>
         {selectedItem.content}
       </Content>
@@ -48,7 +50,7 @@ const TabItem = styled.div<{ isSelected: boolean }>`
   background: ${(props) => props.isSelected ? 'white' : '#E5E5E5'};
 `;
 
-const Tabs = styled.div`
+const TabContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {Logo} from "./Logo";
+import {KeyboardArrowDownOutlined, PersonOutline} from "@mui/icons-material";
 
 export const Header = () => {
   return (
@@ -10,8 +11,9 @@ export const Header = () => {
       </LeftContainer>
 
       <RightContainer>
+        <PersonOutline/>
         Company name
-        <Icon/>
+        <KeyboardArrowDownOutlined/>
       </RightContainer>
     </Wrapper>
   );
@@ -27,13 +29,6 @@ const MenuItem = styled.div`
   }
 `;
 
-const Icon = styled.div`
-  height: 30px;
-  width: 30px;
-  border-radius: 30px;
-  background: #505050;
-`;
-
 const LeftContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -45,7 +40,7 @@ const RightContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
   margin-right: 20px;
 `;
 

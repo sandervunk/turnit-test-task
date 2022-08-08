@@ -2,6 +2,10 @@ import {useMemo, useState} from "react";
 import {Column} from "react-table";
 import {DataRow} from "../types/DataRow";
 import {Table} from "./Table";
+import {ActionCell} from "./Table/ActionCell";
+import {DefaultCell} from "./Table/DefaultCell";
+import {ActionBar} from "./ActionBar";
+import {Form} from "react-final-form";
 
 const initialState: DataRow[] = [
   { name: 'Hello', type: 'World', tools: ['asd'], reference: "ert", active: true },
@@ -9,26 +13,69 @@ const initialState: DataRow[] = [
   { name: 'Hello3', type: 'World3', tools: ['asd3'], reference: "ert3", active: true },
 ];
 
+const emptyRow: DataRow = { name: '', type: '', tools: [], reference: "", active: false };
+
 export const PointsOfSale = () => {
   const [data, setData] = useState<DataRow[]>(initialState);
+  const [focusRowId, setFocusRowId] = useState<string | null>(null);
+  
+  const isInFocus = useMemo(() => (id: string) => focusRowId === id, [focusRowId]);
+  
   const columns: Column<DataRow>[] = useMemo(
     () => [
-      { Header: "Name", accessor: 'name', },
-      { Header: "Type", accessor: 'type', },
-      { Header: "Type of tool", accessor: 'tools', },
-      { Header: "External reference", accessor: 'reference', },
-      { Header: "Active", accessor: 'active', Cell: ({ value }) => <input type="checkbox" checked={value}/> },
+      { Header: () => <input type="checkbox"/>, id: 'selection', Cell: () => <input type="checkbox"/>, },
+      {
+        Header: "Name",
+        accessor: 'name',
+        Cell: ({ row, cell, value }) => <DefaultCell value={value} name={cell.column.id} inFocus={isInFocus(row.id)} inputType="text"/>
+      },
+      {
+        Header: "Type",
+        accessor: 'type',
+        Cell: ({ row, cell, value }) => <DefaultCell value={value} name={cell.column.id} inFocus={isInFocus(row.id)} inputType="text"/>
+      },
+      {
+        Header: "Type of tool",
+        accessor: 'tools',
+        Cell: ({ row, cell, value }) => <DefaultCell value={value} name={cell.column.id} inFocus={isInFocus(row.id)} inputType="text"/>
+      },
+      {
+        Header: "External reference",
+        accessor: 'reference',
+        Cell: ({ row, cell, value }) => <DefaultCell value={value} name={cell.column.id} inFocus={isInFocus(row.id)} inputType="text"/>
+      },
+      {
+        Header: "Active",
+        accessor: 'active',
+        Cell: ({ row, cell, value }) => <DefaultCell value={value} name={cell.column.id} inFocus={isInFocus(row.id)} inputType="checkbox"/>
+      },
+      {
+        Header: () => <span/>,
+        id: 'actions',
+        Cell: ({ row: { id } }: { row: { id: string } }) => (
+          <ActionCell
+            rowId={id}
+            inFocus={isInFocus(id)}
+            onStartEdit={setFocusRowId}
+            onEndEdit={() => setFocusRowId(null)}
+            onSave={() => {}}
+          />
+        )
+      }
     ],
-    []
+    [isInFocus]
   );
 
-  const updateCell = (rowIndex: number, columnId: string, value: string | number | boolean) => {
-    setData((prevData) =>
-      prevData.map((row, index) =>
-        index === rowIndex ? { ...prevData[rowIndex], [columnId]: value } : row
-      )
-    );
-  }
+  const addNewRow = () => setData((prevData) => ([...prevData, emptyRow]));
 
-  return <Table columns={columns} data={data} updateCell={updateCell}/>;
+  return (
+    <>
+      <ActionBar addNewRow={addNewRow} />
+      <Form onSubmit={(a) => console.log(a)} render={({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <Table columns={columns} data={data} addNewRow={addNewRow}/>
+        </form>
+      )}/>
+    </>
+  );
 }

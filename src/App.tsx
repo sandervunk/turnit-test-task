@@ -1,14 +1,14 @@
 import React from 'react';
 import {Header} from './components/Header';
 import styled from "styled-components";
-import {Grid} from "./components/Grid";
+import {Tabs} from "./components/Tabs";
 
 function App() {
   return (
     <>
       <Header/>
       <Body>
-        <Grid/>
+        <Tabs/>
       </Body>
     </>
   );

@@ -1,4 +1,4 @@
-import {Column, useRowSelect, useTable} from "react-table";
+import {Column, useTable} from "react-table";
 import styled from "styled-components";
 import {DataRow} from "../../types/DataRow";
 import {Head} from "./Head";
@@ -7,32 +7,23 @@ import {Row} from "./Row";
 type Props = {
   columns: Column<DataRow>[]
   data: DataRow[];
-  updateCell: (rowIndex: number, columnId: string, value: string | number | boolean) => void;
+  addNewRow: () => void;
 }
 
-export const Table = ({ columns, data, updateCell }: Props) => {
+export const Table = ({ columns, data, addNewRow }: Props) => {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable<DataRow>(
-    { columns, data },
-    useRowSelect,
-    hooks => {
-      hooks.visibleColumns.push(columns => [
-        { id: 'selection', Header: () => <input type="checkbox"/>, Cell: () => <input type="checkbox"/>, },
-        ...columns,
-      ])
-    },
-  );
+  } = useTable<DataRow>({ columns, data });
 
   return (
     <TableWrapper {...getTableProps()}>
       <Head headerGroups={headerGroups}/>
       <tbody {...getTableBodyProps()}>
-      {rows.map((row, key) => <Row row={row} prepareRow={prepareRow} updateCell={updateCell} key={key}/>)}
+      {rows.map((row, key) => <Row row={row} prepareRow={prepareRow} key={key}/>)}
       </tbody>
     </TableWrapper>
   );
@@ -40,4 +31,5 @@ export const Table = ({ columns, data, updateCell }: Props) => {
 
 const TableWrapper = styled.table`
   width: 100%;
+  border-spacing: 0;
 `;

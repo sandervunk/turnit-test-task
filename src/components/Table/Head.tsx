@@ -8,7 +8,7 @@ type Props = {
 
 export const Head = ({ headerGroups }: Props) => {
   return (
-    <thead>
+    <THead>
     {headerGroups.map(headerGroup => (
       <tr {...headerGroup.getHeaderGroupProps()}>
         {headerGroup.headers.map(column => (
@@ -16,10 +16,15 @@ export const Head = ({ headerGroups }: Props) => {
         ))}
       </tr>
     ))}
-    </thead>
+    </THead>
   )
 }
 
 const Cell = styled.th`
   text-align: start;
+  padding: 16px;
+`;
+
+const THead = styled.thead`
+    background: #F6F6F6;
 `;
