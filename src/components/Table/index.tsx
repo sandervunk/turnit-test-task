@@ -1,18 +1,21 @@
-import {Column, Row as RTRow, useRowSelect, useSortBy, useTable} from "react-table";
+import {Column, Row as RTRow, useFilters, useRowSelect, useSortBy, useTable} from "react-table";
 import styled from "styled-components";
 import {DataRow} from "../../types/DataRow";
 import {Head} from "./Head";
 import {Row} from "./Row";
-import React, {useEffect} from "react";
+import React from "react";
 import {IndeterminateCheckbox} from "./IndeterminateCheckbox";
+import {ActionBar} from "../ActionBar";
+
+const emptyRow: DataRow = { name: '', type: '', tools: [], reference: "", active: false };
 
 type Props = {
   columns: Column<DataRow>[]
   data: DataRow[];
-  setSelectedRowIds: (ids: string[]) => void;
+  setData: (data: DataRow[]) => void;
 }
 
-export const Table = ({ columns, data, setSelectedRowIds }: Props) => {
+export const Table = ({ columns, data, setData }: Props) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -20,7 +23,11 @@ export const Table = ({ columns, data, setSelectedRowIds }: Props) => {
     rows,
     prepareRow,
     state: { selectedRowIds },
-  } = useTable<DataRow>({ columns, data }, useSortBy, useRowSelect,
+    setFilter,
+  } = useTable<DataRow>({ columns, data },
+    useFilters,
+    useSortBy,
+    useRowSelect,
     hooks => {
       hooks.visibleColumns.push(columns => [
         {
@@ -30,19 +37,29 @@ export const Table = ({ columns, data, setSelectedRowIds }: Props) => {
         },
         ...columns,
       ])
-    });
+    },
+  );
 
-  useEffect(() => {
-    setSelectedRowIds(Object.keys(selectedRowIds));
-  }, [selectedRowIds, setSelectedRowIds])
+  const addNewRow = () => setData([...data, emptyRow]);
+
+  const deleteRows = () => {
+    const ids = Object.keys(selectedRowIds);
+
+    if (ids.length > 0) {
+      setData(data.filter((_, index) => !ids.includes(index.toString())))
+    }
+  }
 
   return (
-    <TableWrapper {...getTableProps()}>
-      <Head headerGroups={headerGroups}/>
-      <tbody {...getTableBodyProps()}>
-      {rows.map((row, key) => <Row row={row} prepareRow={prepareRow} key={key}/>)}
-      </tbody>
-    </TableWrapper>
+    <>
+      <ActionBar addNewRow={addNewRow} deleteRows={deleteRows} setFilter={setFilter} />
+      <TableWrapper {...getTableProps()}>
+        <Head headerGroups={headerGroups}/>
+        <tbody {...getTableBodyProps()}>
+        {rows.map((row, key) => <Row row={row} prepareRow={prepareRow} key={key}/>)}
+        </tbody>
+      </TableWrapper>
+    </>
   );
 }
 

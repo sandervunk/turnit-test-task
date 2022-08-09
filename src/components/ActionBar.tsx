@@ -4,13 +4,14 @@ import {Add, DeleteOutline} from '@mui/icons-material';
 type Props = {
   addNewRow: () => void;
   deleteRows: () => void;
+  setFilter: (name: string, value: boolean) => void;
 }
 
-export const ActionBar = ({addNewRow, deleteRows}: Props) => {
+export const ActionBar = ({addNewRow, deleteRows, setFilter}: Props) => {
   return (
     <Wrapper>
       <FlexBox>
-        <input type="checkbox" checked/>
+        <input type="checkbox" onChange={(e) => setFilter('active', e.target.checked)}/>
         <div>Show active points of sale</div>
       </FlexBox>
       <FlexBox>
