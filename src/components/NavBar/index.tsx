@@ -2,12 +2,14 @@ import styled from "styled-components";
 import {Logo} from "./Logo";
 import {KeyboardArrowDownOutlined, PersonOutline} from "@mui/icons-material";
 
-export const Header = () => {
+export const NavBar = () => {
+  const menuItems = Array.from(Array(4).keys());
+
   return (
     <Wrapper>
       <LeftContainer>
         <Logo/>
-        {Array.from(Array(4).keys()).map((i, key) => <MenuItem key={key}>{`Menu item ${i + 1}`}</MenuItem>)}
+        {menuItems.map((i, key) => <MenuItem key={key}>{`Menu item ${i + 1}`}</MenuItem>)}
       </LeftContainer>
 
       <RightContainer>

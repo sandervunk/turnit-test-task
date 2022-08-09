@@ -6,7 +6,7 @@ type Props = {
   headerGroups: HeaderGroup<DataRow>[];
 }
 
-export const Head = ({ headerGroups }: Props) => {
+export const Header = ({ headerGroups }: Props) => {
   return (
     <THead>
       {headerGroups.map(headerGroup => (

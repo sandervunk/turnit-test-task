@@ -1,7 +1,7 @@
 import {Column, Row as RTRow, useFilters, useRowSelect, useSortBy, useTable} from "react-table";
 import styled from "styled-components";
 import {DataRow} from "../../types/DataRow";
-import {Head} from "./Head";
+import {Header} from "./Header";
 import {Row} from "./Row";
 import React from "react";
 import {IndeterminateCheckbox} from "./IndeterminateCheckbox";
@@ -42,19 +42,13 @@ export const Table = ({ columns, data, setData }: Props) => {
 
   const addNewRow = () => setData([...data, emptyRow]);
 
-  const deleteRows = () => {
-    const ids = Object.keys(selectedRowIds);
-
-    if (ids.length > 0) {
-      setData(data.filter((_, index) => !ids.includes(index.toString())))
-    }
-  }
+  const deleteRows = () => setData(data.filter((_, id) => !Object.keys(selectedRowIds).includes(String(id))));
 
   return (
     <>
-      <ActionBar addNewRow={addNewRow} deleteRows={deleteRows} setFilter={setFilter} />
+      <ActionBar addNewRow={addNewRow} deleteRows={deleteRows} setFilter={setFilter}/>
       <TableWrapper {...getTableProps()}>
-        <Head headerGroups={headerGroups}/>
+        <Header headerGroups={headerGroups} />
         <tbody {...getTableBodyProps()}>
         {rows.map((row, key) => <Row row={row} prepareRow={prepareRow} key={key}/>)}
         </tbody>
