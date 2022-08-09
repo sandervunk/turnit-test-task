@@ -2,25 +2,24 @@ import {Check, Close, Edit} from "@mui/icons-material";
 import styled from "styled-components";
 
 type Props = {
-  rowId: string;
   inFocus: boolean;
-  onSave: (id: string) => void;
-  onStartEdit: (id: string) => void;
+  onSave: () => void;
+  onStartEdit: () => void;
   onEndEdit: () => void;
 }
 
-export const ActionCell = ({rowId, inFocus, onSave, onStartEdit, onEndEdit}: Props) => {
+export const ActionCell = ({inFocus, onSave, onStartEdit, onEndEdit}: Props) => {
   if(inFocus) {
     return (
       <FlexBox>
-        <Check onClick={() => onSave(rowId)} fontSize="small"/>
+        <Check onClick={onSave} fontSize="small"/>
         <Close onClick={onEndEdit} fontSize="small"/>
       </FlexBox>
     )
   }
 
   return (
-    <Edit onClick={() => onStartEdit(rowId)} fontSize="small"/>
+    <Edit onClick={onStartEdit} fontSize="small"/>
   );
 }
 
