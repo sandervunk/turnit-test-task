@@ -2,13 +2,14 @@ import {useMemo, useState} from "react";
 import {Column, Row} from "react-table";
 import {DataRow} from "../types/DataRow";
 import {Table} from "./Table";
-import {ActionCell} from "./Table/ActionCell";
-import {DefaultCell, FieldType} from "./Table/DefaultCell";
+import {ActionCell} from "./Table/Cell/ActionCell";
+import {Cell} from "./Table/Cell";
+import { FieldType } from "../types/FieldType";
 
 const initialState: DataRow[] = [
-  { name: 'Hello', type: 'World', tools: ['asd'], reference: "ert", active: true },
-  { name: 'Hello2', type: 'World2', tools: ['asd2'], reference: "ert2", active: false },
-  { name: 'Hello3', type: 'World3', tools: ['asd3'], reference: "ert3", active: true },
+  { name: 'Hello', type: 'Van Henry', tools: ['April Tucker', 'Kelly Snyder'], reference: "ert", active: true },
+  { name: 'Hello2', type: 'Van Henry', tools: ['April Tucker', 'Kelly Snyder'], reference: "ert2", active: false },
+  { name: 'Hello3', type: 'Van Henry', tools: ['April Tucker', 'Kelly Snyder'], reference: "ert3", active: true },
 ];
 
 export const PointsOfSale = () => {
@@ -22,27 +23,27 @@ export const PointsOfSale = () => {
       {
         Header: "Name",
         accessor: 'name',
-        Cell: ({ row, value }) => <DefaultCell value={value} inFocus={isInFocus(row.id)} fieldType={FieldType.Text}/>
+        Cell: ({ row, value }) => <Cell nameKey={`[${row.id}]name`} value={value} inFocus={isInFocus(row.id)} type={FieldType.Text}/>
       },
       {
         Header: "Type",
         accessor: 'type',
-        Cell: ({ row, value }) => <DefaultCell value={value} inFocus={isInFocus(row.id)} fieldType={FieldType.Text}/>
+        Cell: ({ row, value }) => <Cell nameKey={`[${row.id}]type`} value={value} inFocus={isInFocus(row.id)} type={FieldType.Select}/>
       },
       {
         Header: "Type of tool",
         accessor: 'tools',
-        Cell: ({ row, value }) => <DefaultCell value={value} inFocus={isInFocus(row.id)} fieldType={FieldType.Select}/>
+        Cell: ({ row, value }) => <Cell nameKey={`[${row.id}]tools`} value={value} inFocus={isInFocus(row.id)} type={FieldType.MultiSelect}/>
       },
       {
         Header: "External reference",
         accessor: 'reference',
-        Cell: ({ row, value }) => <DefaultCell value={value} inFocus={isInFocus(row.id)} fieldType={FieldType.MultiSelect}/>
+        Cell: ({ row, value }) => <Cell nameKey={`[${row.id}]reference`} value={value} inFocus={isInFocus(row.id)} type={FieldType.Text}/>
       },
       {
         Header: "Active",
         accessor: 'active',
-        Cell: ({ row, value }) => <DefaultCell value={value} inFocus={isInFocus(row.id)} fieldType={FieldType.Checkbox}/>
+        Cell: ({ row, value }) => <Cell nameKey={`[${row.id}]active`} value={value} inFocus={isInFocus(row.id)} type={FieldType.Checkbox}/>
       },
       {
         Header: () => <span/>,
@@ -52,7 +53,7 @@ export const PointsOfSale = () => {
             inFocus={isInFocus(row.id)}
             onStartEdit={() => setFocusRowId(row.id)}
             onEndEdit={() => setFocusRowId(null)}
-            onSave={() => console.log(`Saved new data for row ${row.id}!`)}/>
+          />
         )
       }
     ],

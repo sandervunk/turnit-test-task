@@ -6,6 +6,7 @@ import {Row} from "./Row";
 import React from "react";
 import {IndeterminateCheckbox} from "./IndeterminateCheckbox";
 import {ActionBar} from "../ActionBar";
+import { Form } from "react-final-form";
 
 const emptyRow: DataRow = { name: '', type: '', tools: [], reference: "", active: false };
 
@@ -47,12 +48,20 @@ export const Table = ({ columns, data, setData }: Props) => {
   return (
     <>
       <ActionBar addNewRow={addNewRow} deleteRows={deleteRows} setFilter={setFilter}/>
-      <TableWrapper {...getTableProps()}>
-        <Header headerGroups={headerGroups} />
-        <tbody {...getTableBodyProps()}>
-        {rows.map((row, key) => <Row row={row} prepareRow={prepareRow} key={key}/>)}
-        </tbody>
-      </TableWrapper>
+      <Form
+        onSubmit={(val) => setData(val.data)}
+        initialValues={{ data }}
+        render={({handleSubmit}) => (
+            <form onSubmit={handleSubmit}>
+              <TableWrapper {...getTableProps()}>
+                <Header headerGroups={headerGroups} />
+                <tbody {...getTableBodyProps()}>
+                {rows.map((row) => <Row row={row} prepareRow={prepareRow} key={row.id} />)}
+                </tbody>
+              </TableWrapper>
+            </form>
+        )}
+      />
     </>
   );
 }

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 type Props = {
   row: RTRow<DataRow>;
-  prepareRow: (row: RTRow<DataRow>) => void
+  prepareRow: (row: RTRow<DataRow>) => void;
 }
 
 export const Row = ({ row, prepareRow }: Props) => {
@@ -12,15 +12,14 @@ export const Row = ({ row, prepareRow }: Props) => {
 
   return (
     <TableRow {...row.getRowProps()}>
-      {row.cells.map(cell => (
-        <Cell {...cell.getCellProps()}>{cell.render('Cell')}</Cell>))}
+      {row.cells.map(cell => <Cell {...cell.getCellProps()}>{cell.render('Cell')}</Cell>)}
     </TableRow>
   );
 }
 
 const Cell = styled.td`
   padding: 16px;
-  
+
   :not(:first-of-type):not(:last-of-type) {
     min-width: 200px;
   }
@@ -32,7 +31,7 @@ const Cell = styled.td`
 `;
 
 const TableRow = styled.tr`
-  
+
   :hover {
     background: linear-gradient(0deg, rgba(75, 0, 255, 0.1), rgba(75, 0, 255, 0.1)), #FFFFFF;
   }

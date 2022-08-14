@@ -1,18 +1,26 @@
 import {Check, Close, Edit} from "@mui/icons-material";
 import styled from "styled-components";
+import {useForm} from "react-final-form";
 
 type Props = {
   inFocus: boolean;
-  onSave: () => void;
   onStartEdit: () => void;
   onEndEdit: () => void;
 }
 
-export const ActionCell = ({inFocus, onSave, onStartEdit, onEndEdit}: Props) => {
-  if(inFocus) {
+export const ActionCell = ({ inFocus, onStartEdit, onEndEdit }: Props) => {
+  const { submit } = useForm();
+
+  if (inFocus) {
     return (
       <FlexBox>
-        <Check onClick={onSave} fontSize="small"/>
+        <Check
+          onClick={() => {
+            submit();
+            onEndEdit();
+          }}
+          fontSize="small"
+        />
         <Close onClick={onEndEdit} fontSize="small"/>
       </FlexBox>
     )

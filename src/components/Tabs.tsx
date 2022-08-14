@@ -1,37 +1,24 @@
-import React, {ReactNode, useState} from "react";
+import React from "react";
 import styled from "styled-components";
 import {PointsOfSale} from "./PointsOfSale";
 
-type GridItem = {
-  title: string;
-  content: ReactNode;
-}
-
-const renderDummyContent = (tabName: string) => <div>Im <b>{tabName}</b> content</div>;
-
-const gridItems: GridItem[] = [
-  { title: "Units", content: renderDummyContent('Units'), },
-  { title: "Points of sale", content: <PointsOfSale/>, },
-  { title: "Addresses", content: renderDummyContent('Addresses'), },
-  { title: "Contact options", content: renderDummyContent('Contact options'), },
-  { title: "Service fees", content: renderDummyContent('Service fees'), },
-  { title: "Booking access rights", content: renderDummyContent('Booking access rights'), }
+const gridItems: string[] = [
+  "Units",
+  "Points of sale",
+  "Addresses",
+  "Contact options",
+  "Service fees",
+  "Booking access rights"
 ];
 
 export const Tabs = () => {
-  const [selectedItem, setSelectedItem] = useState<GridItem>(gridItems[1]);
-
   return (
     <>
       <TabContainer>
-        {gridItems.map((item: GridItem, key) => (
-          <TabItem key={key} isSelected={item === selectedItem} onClick={() => setSelectedItem(item)}>
-            {item.title}
-          </TabItem>
-        ))}
+        {gridItems.map((item) => <TabItem key={item} isSelected={item === "Points of sale"}>{item}</TabItem>)}
       </TabContainer>
       <Content>
-        {selectedItem.content}
+        <PointsOfSale/>
       </Content>
     </>
   );
