@@ -23,7 +23,8 @@ type Props = {
 }
 
 export const WritableCell = ({ nameKey, value, type }: Props) => {
-  const { input } = useField(`data${nameKey}`);
+  const typeProps = type === FieldType.Checkbox ? {type: 'checkbox'} : {};
+  const { input } = useField(`data${nameKey}`, typeProps);
 
   switch (type) {
     case FieldType.Checkbox:
